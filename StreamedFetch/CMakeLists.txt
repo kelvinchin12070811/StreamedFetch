@@ -3,13 +3,20 @@ project("StreamedFetch")
 set(CMAKE_INCLUDE_CURRENT_DIR on)
 set(CMAKE_CXX_STANDARD 17)
 
+find_package(unofficial-curlpp CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
+
 set(SOURCE_FILES
-    "src/StreamedFetch/Test.cpp"
+    "src/StreamedFetch/Client/Fetch.cpp"
 )
 
 set(HEADER_FILES
-    "src/StreamedFetch/Test.hpp"
+    "src/StreamedFetch/Client/Fetch.hpp"
 )
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES} ${HEADER_FILES})
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    unofficial::curlpp::curlpp
+    fmt::fmt
+)
