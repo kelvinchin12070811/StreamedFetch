@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.0)
 project("StreamedFetchWorkspace")
 
-# add_subdirectory("./StreamedFetch/src")
-add_subdirectory("./TestApp/src")
+add_subdirectory("./StreamedFetch")
+add_subdirectory("./TestApp")
