@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative './rake/vcpkg_utils'
+require_relative './rake/dependencies'
+
+desc 'Install reqired libraries'
+task :install_libs do
+  install_dependencies
+end
+
+desc 'Show the list of required libraries'
+task :list_libs do
+  list_dependencies
+end
+
+desc 'Bootstraping vcpkg'
+task :vcpkg_bootstrap do
+  bootstrap_vcpkg
+end
+
+desc 'Execute vcpkg and pass arguments to it'
+task :vcpkg do
+  exec_vcpkg
+end
