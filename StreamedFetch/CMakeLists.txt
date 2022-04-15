@@ -8,10 +8,11 @@ find_package(fmt CONFIG REQUIRED)
 
 set(SOURCE_FILES
     "src/StreamedFetch/Client/Fetch.cpp"
-)
+ "src/StreamedFetch/Client/ClientBase.cpp")
 
 set(HEADER_FILES
     "src/StreamedFetch/Client/Fetch.hpp"
+    "src/StreamedFetch/Client/ClientBase.hpp"
 )
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES} ${HEADER_FILES})

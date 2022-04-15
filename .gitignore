@@ -351,3 +351,6 @@ MigrationBackup/
 
 # Compiled
 **/out
+
+# Documentations
+docs/*
