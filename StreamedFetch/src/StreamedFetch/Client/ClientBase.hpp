@@ -6,7 +6,6 @@
 #pragma once
 
 #include <memory>
-#include <sstream>
 
 #include "StreamedFetch/Options/HttpMethods.hpp"
 
@@ -28,8 +27,8 @@ const struct Perform_t
  * 
  * example:
  * ```cpp
- * SimpleFetch fetch;
- * fetch << HttpMethod::Get << Url {'https://example.com'} << Perform;
+ * StreamedFetch::Client::SimpleFetch fetch;
+ * fetch << StreamedFetch::Options::Methods::Get { "https://example.com" } << StreamedFetch::Client::Perform;
  * ```
  */
 Perform;
@@ -65,7 +64,7 @@ public:
      * @param method Http method to fetch data
      * @return This client for chaining.
      */
-    ClientBase &operator<<(Options::HttpMethod method) noexcept;
+    ClientBase &operator<<(Options::Methods::IMethod &method) noexcept;
     /**
      * @brief Execute the fetch query.
      * @return This client for chaining.
@@ -84,6 +83,6 @@ protected:
     /**
      * @brief Define the method
      */
-    Options::HttpMethod method { Options::HttpMethod::Null };
+    std::unique_ptr<Options::Methods::IMethod> method { nullptr };
 };
 }

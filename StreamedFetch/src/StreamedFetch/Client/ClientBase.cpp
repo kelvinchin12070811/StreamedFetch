@@ -26,9 +26,9 @@ ClientBase &ClientBase::operator=(ClientBase &&rhs) noexcept
     return *this;
 }
 
-ClientBase &ClientBase::operator<<(Options::HttpMethod method) noexcept
+ClientBase &ClientBase::operator<<(Options::Methods::IMethod &method) noexcept
 {
-    this->method = std::move(method);
+    this->method = method.init();
     return *this;
 }
 }

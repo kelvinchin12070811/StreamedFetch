@@ -5,20 +5,20 @@
 
 #include <curlpp/Options.hpp>
 
-#include <StreamedFetch/Client/Fetch.hpp>
+#include <StreamedFetch/Client/SimpleFetch.hpp>
 
 using namespace std::string_literals;
 using std::any_cast;
 
 int main(int argc, char** argv)
 {
-    StreamedFetch::Client::Fetch fetch;
-    fetch << curlpp::Options::Url { "https://jsonplaceholder.typicode.com/todos/1" } << nullptr;
+    StreamedFetch::Client::SimpleFetch fetch;
+    fetch << StreamedFetch::Options::Methods::Get { "https://jsonplaceholder.typicode.com/todos/1" }
+          << StreamedFetch::Client::Perform;
 
-    std::stringstream ss;
-    fetch >> ss;
-
-    std::cout << ss.str() << std::endl;
+    std::string data;
+    fetch >> data;
+    std::cout << data << std::endl;
     
     return 0;
 }

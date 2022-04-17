@@ -4,16 +4,44 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  **********************************************************************************************************************/
 
-namespace StreamedFetch::Options {
+#include <memory>
+#include <string>
+
+namespace curlpp {
+class Easy;
+}
+
+namespace StreamedFetch::Options::Methods {
 /**
- * @brief Define the methods HTTP's methods that will be used by the client.
+ * @brief Interface of HTTP request methods.
+ * 
+ * Represented as the interface of all HTTP request methods.
  */
-enum class HttpMethod {
-    Null /**< Method not provided, should throw exception. */,
-    Get /**< Http GET request. */,
-    Patch /**< Http PATCH request. */,
-    Put /**< Http PUT request. */,
-    Delete /**< Http DELETE request. */,
-    Post /**< Http POST request. */
+struct IMethod
+{
+    /**
+     * @brief Assign the HTTP request method's options to targeted client.
+     */
+    virtual void assignOptions(curlpp::Easy &client) = 0;
+    /**
+     * @brief Create a instance of it self.
+     * @return Abstracted IMethod client option.
+     */
+    virtual std::unique_ptr<IMethod> init() = 0;
+    virtual ~IMethod() = 0;
+};
+
+/**
+ * @brief Represented as HTTP GET request option.
+ */
+class Get : public IMethod
+{
+public:
+    Get(std::string url);
+    void assignOptions(curlpp::Easy &client) override;
+    std::unique_ptr<IMethod> init() override;
+
+private:
+    std::string url;
 };
 }

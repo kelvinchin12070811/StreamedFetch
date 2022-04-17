@@ -13,4 +13,10 @@ namespace Client {
  */
 namespace Options {
 }
+
+/**
+ * @brief Define a list of different HTTP request method as option to assign to targeted client.
+*/
+namespace Methods {
+}
 }
