@@ -11,18 +11,24 @@
 namespace StreamedFetch::Client {
 ClientBase::ClientBase() : client { std::make_unique<curlpp::Easy>() }
 {
-    client->setOpt(curlpp::Options::WriteStream(&buffer));
 }
 
-ClientBase::ClientBase(ClientBase &&rhs) {
-    buffer = std::move(rhs.buffer);
-    client = std::move(rhs.client);
-}
+ClientBase::~ClientBase() = default;
 
-ClientBase &ClientBase::operator=(ClientBase &&rhs)
+ClientBase::ClientBase(ClientBase &&rhs) noexcept
 {
-    buffer = std::move(rhs.buffer);
     client = std::move(rhs.client);
+}
+
+ClientBase &ClientBase::operator=(ClientBase &&rhs) noexcept
+{
+    client = std::move(rhs.client);
+    return *this;
+}
+
+ClientBase &ClientBase::operator<<(Options::HttpMethod method) noexcept
+{
+    this->method = std::move(method);
     return *this;
 }
 }

@@ -3,29 +3,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  **********************************************************************************************************************/
-#pragma once
 
-#include <sstream>
-
-#include <curlpp/Easy.hpp>
-#include <curlpp/Options.hpp>
-
-namespace StreamedFetch::Client {
+namespace StreamedFetch::Options {
 /**
- * @brief Default client for http rest client.
+ * @brief Define the methods HTTP's methods that will be used by the client.
  */
-class Fetch
-{
-public:
-    Fetch();
-
-    Fetch &operator<<(const curlpp::Options::Url &option);
-    Fetch &operator<<(nullptr_t);
-
-    Fetch &operator>>(std::stringstream &output);
-
-private:
-    curlpp::Easy client;
-    std::stringstream result;
+enum class HttpMethod {
+    Null /**< Method not provided, should throw exception. */,
+    Get /**< Http GET request. */,
+    Patch /**< Http PATCH request. */,
+    Put /**< Http PUT request. */,
+    Delete /**< Http DELETE request. */,
+    Post /**< Http POST request. */
 };
 }

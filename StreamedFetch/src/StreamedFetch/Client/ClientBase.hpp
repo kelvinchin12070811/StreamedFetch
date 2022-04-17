@@ -8,14 +8,32 @@
 #include <memory>
 #include <sstream>
 
+#include "StreamedFetch/Options/HttpMethods.hpp"
+
 namespace curlpp {
 struct Easy;
 }
 
-/**
- * @brief Define the clients of StreamedFetch.
- */
 namespace StreamedFetch::Client {
+/**
+ * @brief Base data type of `Perform`.
+ * 
+ * @sa Perform
+ */
+const struct Perform_t
+{
+}
+/**
+ * @brief Operator that tell the client to execute the fetch process.
+ * 
+ * example:
+ * ```cpp
+ * SimpleFetch fetch;
+ * fetch << HttpMethod::Get << Url {'https://example.com'} << Perform;
+ * ```
+ */
+Perform;
+
 /**
  * @brief Base implementation of all fetch client.
  * 
@@ -34,19 +52,38 @@ public:
      * @brief Move constructor of the ClientBase.
      * @param rhs Target ClientBase to move from.
     */
-    ClientBase(ClientBase &&rhs);
+    ClientBase(ClientBase &&rhs) noexcept;
     /**
      * @brief Move operator of the ClientBase.
      * @param rhs Target ClientBase to move from.
      * @return Moved ClientBase.
      */
-    ClientBase &operator=(ClientBase &&rhs);
+    ClientBase &operator=(ClientBase &&rhs) noexcept;
+
+    /**
+     * @brief Set http method for the client.
+     * @param method Http method to fetch data
+     * @return This client for chaining.
+     */
+    ClientBase &operator<<(Options::HttpMethod method) noexcept;
+    /**
+     * @brief Execute the fetch query.
+     * @return This client for chaining.
+     */
+    virtual ClientBase &operator<<(Perform_t) = 0;
 
     ClientBase(const ClientBase &) = delete;
     ClientBase &operator=(const ClientBase &) = delete;
+    virtual ~ClientBase() = 0;
 
-private:
+protected:
+    /**
+     * @brief libcurlpp client used to perform the request.
+     */
     std::unique_ptr<curlpp::Easy> client { nullptr };
-    std::ostringstream buffer;
+    /**
+     * @brief Define the method
+     */
+    Options::HttpMethod method { Options::HttpMethod::Null };
 };
 }
