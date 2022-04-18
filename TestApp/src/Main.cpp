@@ -13,7 +13,7 @@ using std::any_cast;
 int main(int argc, char** argv)
 {
     StreamedFetch::Client::SimpleFetch fetch;
-    fetch << StreamedFetch::Options::Methods::Get { "https://jsonplaceholder.typicode.com/todos/1" }
+    fetch << StreamedFetch::Options::HttpMethods::Get { "https://jsonplaceholder.typicode.com/todos/1" }
           << StreamedFetch::Client::Perform;
 
     std::string data;

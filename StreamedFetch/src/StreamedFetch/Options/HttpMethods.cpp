@@ -5,21 +5,23 @@
  **********************************************************************************************************************/
 #include "StreamedFetch/Options/HttpMethods.hpp"
 
+#include <cassert>
+
 #include <curlpp/Easy.hpp>
 #include <curlpp/Options.hpp>
 
-namespace StreamedFetch::Options::Methods {
-IMethod::~IMethod() = default;
-
+namespace StreamedFetch::Options::HttpMethods {
 Get::Get(std::string url) : url { std::move(url) } { }
 
-void StreamedFetch::Options::Methods::Get::assignOptions(curlpp::Easy &client)
+void StreamedFetch::Options::HttpMethods::Get::assignOption(curlpp::Easy *client) noexcept
 {
-    client.setOpt(curlpp::Options::HttpGet { true });
-    client.setOpt(curlpp::Options::Url { url });
+    assert(client != nullptr);
+
+    client->setOpt(curlpp::Options::HttpGet { true });
+    client->setOpt(curlpp::Options::Url { url });
 }
 
-std::unique_ptr<IMethod> Options::Methods::Get::init()
+std::unique_ptr<MethodBase> Options::HttpMethods::Get::init()
 {
     return std::make_unique<Get>(std::move(url));
 }

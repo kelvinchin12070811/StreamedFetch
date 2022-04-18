@@ -10,7 +10,7 @@
 #include "StreamedFetch/Options/HttpMethods.hpp"
 
 namespace curlpp {
-struct Easy;
+class Easy;
 }
 
 namespace StreamedFetch::Client {
@@ -64,12 +64,23 @@ public:
      * @param method Http method to fetch data
      * @return This client for chaining.
      */
-    ClientBase &operator<<(Options::Methods::IMethod &method) noexcept;
+    ClientBase &operator<<(Options::HttpMethods::MethodBase &method) noexcept;
+
+    /**
+     * @brief Assign client option to current client.
+     * @param option Option to assign to current client.
+     * @return This object for chaining operator.
+     */
+    ClientBase &operator<<(Options::IClientOption &option) noexcept;
+
     /**
      * @brief Execute the fetch query.
+     * 
+     * Execute the query when the client recieved Perform operator.
+     * 
      * @return This client for chaining.
      */
-    virtual ClientBase &operator<<(Perform_t) = 0;
+    ClientBase &operator<<(Perform_t);
 
     ClientBase(const ClientBase &) = delete;
     ClientBase &operator=(const ClientBase &) = delete;
@@ -83,6 +94,11 @@ protected:
     /**
      * @brief Define the method
      */
-    std::unique_ptr<Options::Methods::IMethod> method { nullptr };
+    std::unique_ptr<Options::HttpMethods::MethodBase> method { nullptr };
+
+    /**
+     * @brief Method that will be called when the client recieve Perform operator.
+     */
+    virtual void fetch() = 0;
 };
 }

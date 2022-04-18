@@ -13,6 +13,12 @@ ClientBase::ClientBase() : client { std::make_unique<curlpp::Easy>() }
 {
 }
 
+ClientBase &ClientBase::operator<<(Perform_t)
+{
+    fetch();
+    return *this;
+}
+
 ClientBase::~ClientBase() = default;
 
 ClientBase::ClientBase(ClientBase &&rhs) noexcept
@@ -26,9 +32,15 @@ ClientBase &ClientBase::operator=(ClientBase &&rhs) noexcept
     return *this;
 }
 
-ClientBase &ClientBase::operator<<(Options::Methods::IMethod &method) noexcept
+ClientBase &ClientBase::operator<<(Options::HttpMethods::MethodBase &method) noexcept
 {
     this->method = method.init();
+    return *this;
+}
+
+ClientBase &ClientBase::operator<<(Options::IClientOption &option) noexcept
+{
+    option.assignOption(client.get());
     return *this;
 }
 }

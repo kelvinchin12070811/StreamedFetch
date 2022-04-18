@@ -7,39 +7,46 @@
 #include <memory>
 #include <string>
 
+#include "StreamedFetch/Options/IClientOption.hpp"
+
 namespace curlpp {
 class Easy;
 }
 
-namespace StreamedFetch::Options::Methods {
+namespace StreamedFetch::Options::HttpMethods {
 /**
  * @brief Interface of HTTP request methods.
  * 
  * Represented as the interface of all HTTP request methods.
  */
-struct IMethod
+class MethodBase : public IClientOption
 {
+public:
     /**
      * @brief Assign the HTTP request method's options to targeted client.
+     * 
+     * Assign HTTP request method to @p client.
+     * 
+     * @param client Client to assign the option to, must not be nullptr or assertion failed will be triggered.
      */
-    virtual void assignOptions(curlpp::Easy &client) = 0;
+    virtual void assignOption(curlpp::Easy *client) noexcept override = 0;
     /**
      * @brief Create a instance of it self.
-     * @return Abstracted IMethod client option.
+     * @return Abstracted MethodBase client option.
      */
-    virtual std::unique_ptr<IMethod> init() = 0;
-    virtual ~IMethod() = 0;
+    virtual std::unique_ptr<MethodBase> init() = 0;
+    ~MethodBase() = default;
 };
 
 /**
  * @brief Represented as HTTP GET request option.
  */
-class Get : public IMethod
+class Get : public MethodBase
 {
 public:
     Get(std::string url);
-    void assignOptions(curlpp::Easy &client) override;
-    std::unique_ptr<IMethod> init() override;
+    void assignOption(curlpp::Easy *client) noexcept override;
+    std::unique_ptr<MethodBase> init() override;
 
 private:
     std::string url;

@@ -14,13 +14,6 @@ SimpleFetch::SimpleFetch() : ClientBase()
     client->setOpt(curlpp::Options::WriteStream { &buffer });
 }
 
-SimpleFetch &SimpleFetch::operator<<(Perform_t)
-{
-    method->assignOptions(*client);
-    client->perform();
-    return *this;
-}
-
 SimpleFetch &SimpleFetch::operator>>(std::string &output)
 {
     output = buffer.str();
@@ -45,5 +38,11 @@ SimpleFetch &SimpleFetch::operator>>(std::vector<std::uint8_t> &output)
     buffer.read(reinterpret_cast<char *>(output.data()), output.size());
 
     return *this;
+}
+
+void SimpleFetch::fetch()
+{
+    method->assignOption(client.get());
+    client->perform();
 }
 }

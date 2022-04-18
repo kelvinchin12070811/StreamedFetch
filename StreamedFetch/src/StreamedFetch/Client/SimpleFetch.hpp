@@ -23,8 +23,6 @@ public:
     SimpleFetch();
     using ClientBase::operator<<;
 
-    SimpleFetch &operator<<(Perform_t) override;
-
     /**
      * @brief Get output from the client and clear the buffer.
      * @param output String to write into.
@@ -53,7 +51,13 @@ public:
      */
     SimpleFetch &operator>>(std::vector<std::uint8_t> &output);
 
+protected:
+    void fetch() override;
+
 private:
+    /**
+     * @brief Buffer to store result of the client.
+     */
     std::stringstream buffer;
 };
 }
