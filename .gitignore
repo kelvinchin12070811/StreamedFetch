@@ -352,5 +352,8 @@ MigrationBackup/
 # Compiled
 **/out
 
+# Ruby related
+*/.bundle/gems
+
 # Documentations
 docs/*
