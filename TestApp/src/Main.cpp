@@ -1,24 +1,30 @@
-#include <iostream>
-#include <any>
+#define BOOST_TEST_MODULE StreamedFetch Unit Test Module
+#include <boost/test/unit_test.hpp>
+
 #include <string>
 #include <sstream>
 
 #include <curlpp/Options.hpp>
 
+#include <fmt/ostream.h>
+
 #include <StreamedFetch/Client/SimpleFetch.hpp>
 
-using namespace std::string_literals;
-using std::any_cast;
+using namespace StreamedFetch;
 
-int main(int argc, char** argv)
+BOOST_AUTO_TEST_CASE(simple_client_httpget_test)
 {
-    StreamedFetch::Client::SimpleFetch fetch;
-    fetch << StreamedFetch::Options::HttpMethods::Get { "https://jsonplaceholder.typicode.com/todos/1" }
-          << StreamedFetch::Client::Perform;
+    try {
+        Client::SimpleFetch fetch;
+        std::string data;
+        fetch << Options::HttpMethods::Get { "https://jsonplaceholder.typicode.com/todo/1" }
+              << Client::Perform;
+        fetch >> data;
 
-    std::string data;
-    fetch >> data;
-    std::cout << data << std::endl;
-    
-    return 0;
+        fmt::print("response:\n{}", data);
+
+        BOOST_REQUIRE(!data.empty());
+    } catch (const std::exception &e) {
+        BOOST_FAIL(e.what());
+    }
 }
