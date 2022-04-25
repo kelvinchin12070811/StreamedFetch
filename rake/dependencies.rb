@@ -5,7 +5,7 @@ require_relative './config'
 def install_dependencies
   CONFIG[:dependencies].each_with_index do |dependency, index|
     puts "\n[#{index + 1}/#{CONFIG[:dependencies].length}] Installing #{dependency}..."
-    system "#{CONFIG[:vcpkg_path]}/vcpkg install #{dependency}"
+    exec "#{CONFIG[:vcpkg_path]}/vcpkg install #{dependency}"
   end
 end
 
