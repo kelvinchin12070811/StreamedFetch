@@ -7,6 +7,7 @@
 
 #include <curlpp/Easy.hpp>
 #include <curlpp/Options.hpp>
+#include <curlpp/Infos.hpp>
 
 namespace StreamedFetch::Client {
 ClientBase::ClientBase() : client { std::make_unique<curlpp::Easy>() }
@@ -16,6 +17,12 @@ ClientBase::ClientBase() : client { std::make_unique<curlpp::Easy>() }
 ClientBase &ClientBase::operator<<(Perform_t)
 {
     fetch();
+    return *this;
+}
+
+ClientBase &ClientBase::operator>>(Infos::IClientInfo &info)
+{
+    info.writeInfo(*client);
     return *this;
 }
 

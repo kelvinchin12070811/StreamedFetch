@@ -7,6 +7,7 @@
 
 #include <memory>
 
+#include "StreamedFetch/Infos/IClientInfo.hpp"
 #include "StreamedFetch/Options/HttpMethods.hpp"
 
 namespace curlpp {
@@ -81,6 +82,13 @@ public:
      * @return This client for chaining.
      */
     ClientBase &operator<<(Perform_t);
+
+    /**
+     * @brief Output required client info to Infos::IClientInfo
+     * @param info IClientInfo to write to
+     * @return This client for chaining.
+     */
+    ClientBase &operator>>(Infos::IClientInfo &info);
 
     ClientBase(const ClientBase &) = delete;
     ClientBase &operator=(const ClientBase &) = delete;

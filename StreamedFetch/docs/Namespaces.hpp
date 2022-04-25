@@ -18,4 +18,10 @@ namespace Options {
 namespace HttpMethods {
 }
 }
+
+/**
+ * @brief Represent as the info of the client.
+ */
+namespace Infos {
+}
 }

@@ -9,13 +9,16 @@ find_package(fmt CONFIG REQUIRED)
 set(SOURCE_FILES
     "src/StreamedFetch/Client/ClientBase.cpp"
     "src/StreamedFetch/Client/SimpleFetch.cpp"
+    "src/StreamedFetch/Infos/Infos.cpp"
     "src/StreamedFetch/Options/HttpMethods.cpp"
-    
- "src/StreamedFetch/Options/IClientOption.cpp")
+    "src/StreamedFetch/Options/IClientOption.cpp"
+)
 
 set(HEADER_FILES
     "src/StreamedFetch/Client/ClientBase.hpp"
     "src/StreamedFetch/Client/SimpleFetch.hpp"
+    "src/StreamedFetch/Infos/IClientInfo.hpp"
+    "src/StreamedFetch/Infos/Infos.hpp"
     "src/StreamedFetch/Options/HttpMethods.hpp"
     "src/StreamedFetch/Options/IClientOption.hpp"
 )

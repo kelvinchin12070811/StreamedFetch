@@ -22,6 +22,7 @@ class SimpleFetch : public ClientBase
 public:
     SimpleFetch();
     using ClientBase::operator<<;
+    using ClientBase::operator>>;
 
     /**
      * @brief Get output from the client and clear the buffer.
