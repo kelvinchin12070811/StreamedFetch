@@ -7,5 +7,5 @@ Rails.application.load_tasks
 
 desc 'Run YARD gems'
 task :yard_gems do
-  exec ''
+  exec 'bundle exec yard gems'
 end

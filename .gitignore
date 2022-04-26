@@ -364,26 +364,26 @@ docs/*
 /.bundle
 
 # Ignore the default SQLite database.
-/test-app/db/*.sqlite3
-/test-app/db/*.sqlite3-*
+/test-server/db/*.sqlite3
+/test-server/db/*.sqlite3-*
 
 # Ignore all logfiles and tempfiles.
-/test-app/log/*
-/test-app/tmp/*
-!/test-app/log/.keep
-!/test-app/tmp/.keep
+/test-server/log/*
+/test-server/tmp/**/*
+!/test-server/log/.keep
+!/test-server/tmp/.keep
 
 # Ignore pidfiles, but keep the directory.
-/test-app/tmp/pids/*
-!/test-app/tmp/pids/
-!/test-app/tmp/pids/.keep
+/test-server/tmp/pids/*
+!/test-server/tmp/pids/
+!/test-server/tmp/pids/.keep
 
 # Ignore uploaded files in development.
-/test-app/storage/*
-!/test-app/storage/.keep
-/test-app/tmp/storage/*
-!/test-app/tmp/storage/
-!/test-app/tmp/storage/.keep
+/test-server/storage/*
+!/test-server/storage/.keep
+/test-server/tmp/storage/*
+!/test-server/tmp/storage/
+!/test-server/tmp/storage/.keep
 
 # Ignore master key for decrypting credentials and more.
-/test-app/config/master.key
+/test-server/config/master.key
