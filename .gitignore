@@ -26,7 +26,8 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
+[Bb]in/**/*
+!/test-server/bin/*
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
@@ -357,3 +358,32 @@ MigrationBackup/
 
 # Documentations
 docs/*
+
+# Rails related
+# Ignore bundler config.
+/.bundle
+
+# Ignore the default SQLite database.
+/test-app/db/*.sqlite3
+/test-app/db/*.sqlite3-*
+
+# Ignore all logfiles and tempfiles.
+/test-app/log/*
+/test-app/tmp/*
+!/test-app/log/.keep
+!/test-app/tmp/.keep
+
+# Ignore pidfiles, but keep the directory.
+/test-app/tmp/pids/*
+!/test-app/tmp/pids/
+!/test-app/tmp/pids/.keep
+
+# Ignore uploaded files in development.
+/test-app/storage/*
+!/test-app/storage/.keep
+/test-app/tmp/storage/*
+!/test-app/tmp/storage/
+!/test-app/tmp/storage/.keep
+
+# Ignore master key for decrypting credentials and more.
+/test-app/config/master.key
