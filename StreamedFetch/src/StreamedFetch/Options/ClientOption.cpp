@@ -25,4 +25,11 @@ void Header::assignOption(curlpp::Easy *client) noexcept
 {
     client->setOpt(curlpp::Options::HttpHeader { headers });
 }
+
+UserAgent::UserAgent(std::string userAgent) : userAgent { userAgent } { }
+
+void UserAgent::assignOption(curlpp::Easy *client) noexcept
+{
+    client->setOpt(curlpp::Options::UserAgent { userAgent });
+}
 }
