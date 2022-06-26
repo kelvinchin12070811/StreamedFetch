@@ -74,6 +74,9 @@ public:
     Post(std::string url, std::string body);
     STREAMED_FETCH_METHOD_BASE_DEFINITIONS
 
-    std::string postFields;
+    /**
+     * @brief Body of the post request.
+     */
+    std::string body;
 };
 }

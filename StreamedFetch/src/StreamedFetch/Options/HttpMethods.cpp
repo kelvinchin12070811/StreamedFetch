@@ -13,7 +13,7 @@
 namespace StreamedFetch::Options::HttpMethods {
 Get::Get(std::string url) : url { std::move(url) } { }
 
-void StreamedFetch::Options::HttpMethods::Get::assignOption(curlpp::Easy *client) noexcept
+void Get::assignOption(curlpp::Easy *client) noexcept
 {
     assert(client != nullptr);
 
@@ -21,13 +21,13 @@ void StreamedFetch::Options::HttpMethods::Get::assignOption(curlpp::Easy *client
     client->setOpt(curlpp::Options::Url { url });
 }
 
-std::unique_ptr<MethodBase> Options::HttpMethods::Get::init()
+std::unique_ptr<MethodBase> Get::init()
 {
     return std::make_unique<Get>(std::move(url));
 }
 
 Post::Post(std::string url) : url { url } { }
-Post::Post(std::string url, std::string postFields) : url { url }, postFields { postFields } { }
+Post::Post(std::string url, std::string body) : url { url }, body { body } { }
 
 void Post::assignOption(curlpp::Easy *client) noexcept
 {
@@ -35,9 +35,9 @@ void Post::assignOption(curlpp::Easy *client) noexcept
 
     client->setOpt(curlpp::Options::Url { url });
 
-    if (!postFields.empty()) {
-        client->setOpt(curlpp::Options::PostFieldSize { static_cast<long>(postFields.length()) });
-        client->setOpt(curlpp::Options::PostFields { postFields });
+    if (!body.empty()) {
+        client->setOpt(curlpp::Options::PostFieldSize { static_cast<long>(body.length()) });
+        client->setOpt(curlpp::Options::PostFields { body });
         return;
     }
 
@@ -47,7 +47,7 @@ void Post::assignOption(curlpp::Easy *client) noexcept
 std::unique_ptr<MethodBase> Post::init()
 {
     auto method = std::make_unique<Post>(std::move(url));
-    method->postFields = std::move(postFields);
+    method->body = std::move(body);
     return method;
 }
 }

@@ -45,8 +45,9 @@ struct IClientOption
  *                                      << Perform;
  * ```
  */
-struct Header : public IClientOption
+class Header : public IClientOption
 {
+public:
     /**
      * @brief Add a header to the request. 
      * @param header Header string in.
