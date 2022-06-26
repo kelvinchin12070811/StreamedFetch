@@ -10,8 +10,8 @@ set(SOURCE_FILES
     "src/StreamedFetch/Client/ClientBase.cpp"
     "src/StreamedFetch/Client/SimpleFetch.cpp"
     "src/StreamedFetch/Infos/Infos.cpp"
+    "src/StreamedFetch/Options/ClientOption.cpp"
     "src/StreamedFetch/Options/HttpMethods.cpp"
-    "src/StreamedFetch/Options/IClientOption.cpp"
 )
 
 set(HEADER_FILES
@@ -20,7 +20,7 @@ set(HEADER_FILES
     "src/StreamedFetch/Infos/IClientInfo.hpp"
     "src/StreamedFetch/Infos/Infos.hpp"
     "src/StreamedFetch/Options/HttpMethods.hpp"
-    "src/StreamedFetch/Options/IClientOption.hpp"
+    "src/StreamedFetch/Options/ClientOption.hpp"
 )
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES} ${HEADER_FILES})

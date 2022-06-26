@@ -7,7 +7,13 @@
 #include <memory>
 #include <string>
 
-#include "StreamedFetch/Options/IClientOption.hpp"
+#include "StreamedFetch/Options/ClientOption.hpp"
+
+#define STREAMED_FETCH_METHOD_BASE_DEFINITIONS \
+    void assignOption(curlpp::Easy *client) noexcept override;\
+    std::unique_ptr<MethodBase> init() override;\
+private:\
+std::string url;
 
 namespace curlpp {
 class Easy;
@@ -45,10 +51,29 @@ class Get : public MethodBase
 {
 public:
     Get(std::string url);
-    void assignOption(curlpp::Easy *client) noexcept override;
-    std::unique_ptr<MethodBase> init() override;
+    STREAMED_FETCH_METHOD_BASE_DEFINITIONS
+};
 
-private:
-    std::string url;
+/**
+ * @brief Represented as HTTP POST request option.
+ */
+class Post : public MethodBase
+{
+public:
+    /**
+     * @brief Initialize an empty post request, with only url.
+     * @param url URL of the endpoint.
+     */
+    Post(std::string url);
+    /**
+     * @brief Initialize a post request with body.
+     * @param url URL of the endpoint.
+     * @param body Body of the request, can be any kind of data such as form or json.
+     * @note This option does not set the related Content-Type header. See Options::Header for more info.
+     */
+    Post(std::string url, std::string body);
+    STREAMED_FETCH_METHOD_BASE_DEFINITIONS
+
+    std::string postFields;
 };
 }

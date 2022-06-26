@@ -14,6 +14,11 @@ SimpleFetch::SimpleFetch() : ClientBase()
     client->setOpt(curlpp::Options::WriteStream { &buffer });
 }
 
+void SimpleFetch::reset() noexcept {
+    ClientBase::reset();
+    buffer = {};
+}
+
 SimpleFetch &SimpleFetch::operator>>(std::string &output)
 {
     output = buffer.str();

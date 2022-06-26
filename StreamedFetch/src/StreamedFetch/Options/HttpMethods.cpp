@@ -25,4 +25,29 @@ std::unique_ptr<MethodBase> Options::HttpMethods::Get::init()
 {
     return std::make_unique<Get>(std::move(url));
 }
+
+Post::Post(std::string url) : url { url } { }
+Post::Post(std::string url, std::string postFields) : url { url }, postFields { postFields } { }
+
+void Post::assignOption(curlpp::Easy *client) noexcept
+{
+    assert(client != nullptr);
+
+    client->setOpt(curlpp::Options::Url { url });
+
+    if (!postFields.empty()) {
+        client->setOpt(curlpp::Options::PostFieldSize { static_cast<long>(postFields.length()) });
+        client->setOpt(curlpp::Options::PostFields { postFields });
+        return;
+    }
+
+    client->setOpt(curlpp::Options::HttpPost { curlpp::Forms {} });
+}
+
+std::unique_ptr<MethodBase> Post::init()
+{
+    auto method = std::make_unique<Post>(std::move(url));
+    method->postFields = std::move(postFields);
+    return method;
+}
 }

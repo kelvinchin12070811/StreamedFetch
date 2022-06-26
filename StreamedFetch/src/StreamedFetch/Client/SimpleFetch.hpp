@@ -23,6 +23,8 @@ public:
     SimpleFetch();
     using ClientBase::operator<<;
     using ClientBase::operator>>;
+    
+    void reset() noexcept override;
 
     /**
      * @brief Get output from the client and clear the buffer.

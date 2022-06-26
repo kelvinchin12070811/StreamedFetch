@@ -53,6 +53,12 @@ public:
      * @param rhs Target ClientBase to move from.
     */
     ClientBase(ClientBase &&rhs) noexcept;
+
+    /**
+     * @brief Reset the fetch client.
+     */
+    virtual void reset() noexcept;
+
     /**
      * @brief Move operator of the ClientBase.
      * @param rhs Target ClientBase to move from.

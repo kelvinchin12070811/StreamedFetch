@@ -5,6 +5,9 @@
  **********************************************************************************************************************/
 #pragma once
 
+#include <list>
+#include <string>
+
 namespace curlpp {
 class Easy;
 }
@@ -28,5 +31,38 @@ struct IClientOption
      * @brief Destruct the IClientOption object.
      */
     virtual ~IClientOption() = 0;
+};
+
+/**
+ * @brief Represent as the list of headers that will be sent to the API endpoint.
+ * 
+ * A list of the HTTP headers in that will be sent to the API endpoint.
+ * 
+ * Example:
+ * ```
+ * StreamedFetch::Client::SimpleFetch{} << HttpMethods::Post{ "https://example.com", "\"test\": \"Hi!\"" }
+ *                                      << Header{ "Content-Type: application/json" }
+ *                                      << Perform;
+ * ```
+ */
+struct Header : public IClientOption
+{
+    /**
+     * @brief Add a header to the request. 
+     * @param header Header string in.
+     */
+    Header(std::string header);
+    /**
+     * @brief Add a list of headers to the request.
+     * @param headers List of Header strings.
+     */
+    Header(std::list<std::string> headers);
+    void assignOption(curlpp::Easy *client) noexcept override;
+
+private:
+    /**
+     * @brief List that hold the list of HTTP headers.
+     */
+    std::list<std::string> headers;
 };
 }

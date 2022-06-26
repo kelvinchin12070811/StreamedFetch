@@ -14,6 +14,12 @@ ClientBase::ClientBase() : client { std::make_unique<curlpp::Easy>() }
 {
 }
 
+void ClientBase::reset() noexcept
+{
+    client->reset();
+    method = nullptr;
+}
+
 ClientBase &ClientBase::operator<<(Perform_t)
 {
     fetch();
