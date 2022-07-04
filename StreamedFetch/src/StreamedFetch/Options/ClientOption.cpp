@@ -32,4 +32,13 @@ void UserAgent::assignOption(curlpp::Easy *client) noexcept
 {
     client->setOpt(curlpp::Options::UserAgent { userAgent });
 }
+
+namespace functional_test {
+std::function<void(std::unique_ptr<curlpp::Easy> &)> url(std::string value)
+{
+    return [url = std::move(value)](std::unique_ptr<curlpp::Easy> &client) {
+        client->setOpt(curlpp::options::Url { url });
+    };
+}
+}
 }

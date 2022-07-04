@@ -6,6 +6,7 @@
 #pragma once
 
 #include <memory>
+#include <functional>
 
 #include "StreamedFetch/Infos/IClientInfo.hpp"
 #include "StreamedFetch/Options/HttpMethods.hpp"
@@ -33,6 +34,8 @@ const struct Perform_t
  * ```
  */
 Perform;
+
+void perform(std::unique_ptr<curlpp::Easy> &client);
 
 /**
  * @brief Base implementation of all fetch client.
@@ -88,6 +91,13 @@ public:
      * @return This client for chaining.
      */
     ClientBase &operator<<(Perform_t);
+
+    /**
+     * @brief Execute manipulator on the target client.
+     * @param manipulator Manipulator to execute, usually CURL options.
+     */
+    ClientBase &
+    operator<<(std::function<void(std::unique_ptr<curlpp::Easy> &)> manipulator) noexcept;
 
     /**
      * @brief Output required client info to Infos::IClientInfo

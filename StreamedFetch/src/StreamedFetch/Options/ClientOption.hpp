@@ -7,6 +7,7 @@
 
 #include <list>
 #include <string>
+#include <functional>
 
 namespace curlpp {
 class Easy;
@@ -90,4 +91,8 @@ private:
      */
     std::string userAgent;
 };
+
+namespace functional_test {
+std::function<void(std::unique_ptr<curlpp::Easy>&)> url(std::string path);
+}
 }

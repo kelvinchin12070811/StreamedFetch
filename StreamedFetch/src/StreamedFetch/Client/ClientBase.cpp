@@ -10,6 +10,12 @@
 #include <curlpp/Infos.hpp>
 
 namespace StreamedFetch::Client {
+
+void perform(std::unique_ptr<curlpp::Easy> &client)
+{
+    client->perform();
+}
+
 ClientBase::ClientBase() : client { std::make_unique<curlpp::Easy>() }
 {
 }
@@ -23,6 +29,12 @@ void ClientBase::reset() noexcept
 ClientBase &ClientBase::operator<<(Perform_t)
 {
     fetch();
+    return *this;
+}
+
+ClientBase &ClientBase::operator<<(std::function<void(std::unique_ptr<curlpp::Easy>&)> manipulator) noexcept
+{
+    manipulator(client);
     return *this;
 }
 
