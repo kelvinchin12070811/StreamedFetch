@@ -60,4 +60,9 @@ void perform(ClientBase * const client, curlpp::Easy * const curl)
     static_cast<void>(curl);
     client->fetch();
 }
+
+void reset(ClientBase* const client, curlpp::Easy* const curl) {
+    static_cast<void>(curl);
+    client->reset();
+}
 }

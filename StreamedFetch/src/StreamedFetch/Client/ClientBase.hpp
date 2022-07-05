@@ -108,4 +108,11 @@ protected:
  * @param curl Curl instance that @p client hold, does not assign ownership.
  */
 void perform(ClientBase *const client, curlpp::Easy *const curl);
+
+/**
+ * @brief Manipulator that will reset the client where it streamed into.
+ * @param client Client where the manipulator get called, should not be nullptr.
+ * @param curl Curl instance that @p client hold, does not assign ownership.
+*/
+void reset(ClientBase *const client, curlpp::Easy *const curl);
 }
