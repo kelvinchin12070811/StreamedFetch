@@ -8,9 +8,6 @@
 #include <memory>
 #include <functional>
 
-#include "StreamedFetch/Infos/IClientInfo.hpp"
-#include "StreamedFetch/Options/HttpMethods.hpp"
-
 namespace curlpp {
 class Easy;
 }
@@ -61,31 +58,10 @@ public:
     ClientBase &operator=(ClientBase &&rhs) noexcept;
 
     /**
-     * @brief Set http method for the client.
-     * @param method Http method to fetch data
-     * @return This client for chaining.
-     */
-    ClientBase &operator<<(Options::HttpMethods::MethodBase &method) noexcept;
-
-    /**
-     * @brief Assign client option to current client.
-     * @param option Option to assign to current client.
-     * @return This object for chaining operator.
-     */
-    ClientBase &operator<<(Options::IClientOption &option) noexcept;
-
-    /**
      * @brief Execute manipulator on the target client.
      * @param manipulator Manipulator to execute, usually CURL options.
      */
     ClientBase &operator<<(ClientManipulatorType manipulator) noexcept;
-
-    /**
-     * @brief Output required client info to Infos::IClientInfo
-     * @param info IClientInfo to write to
-     * @return This client for chaining.
-     */
-    ClientBase &operator>>(Infos::IClientInfo &info);
 
     ClientBase(const ClientBase &) = delete;
     ClientBase &operator=(const ClientBase &) = delete;
@@ -96,10 +72,6 @@ protected:
      * @brief libcurlpp client used to perform the request.
      */
     std::unique_ptr<curlpp::Easy> client { nullptr };
-    /**
-     * @brief Define the method
-     */
-    std::unique_ptr<Options::HttpMethods::MethodBase> method { nullptr };
 };
 
 /**

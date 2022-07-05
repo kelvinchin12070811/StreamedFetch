@@ -26,19 +26,10 @@ void Header::assignOption(curlpp::Easy *client) noexcept
     client->setOpt(curlpp::Options::HttpHeader { headers });
 }
 
-UserAgent::UserAgent(std::string userAgent) : userAgent { userAgent } { }
-
-void UserAgent::assignOption(curlpp::Easy *client) noexcept
-{
-    client->setOpt(curlpp::Options::UserAgent { userAgent });
-}
-
-namespace functional_test {
-std::function<void(std::unique_ptr<curlpp::Easy> &)> url(std::string value)
-{
-    return [url = std::move(value)](std::unique_ptr<curlpp::Easy> &client) {
-        client->setOpt(curlpp::options::Url { url });
+Client::ClientManipulatorType userAgent(std::string value) {
+    return [uaStr = std::move(value)](Client::ClientBase *const client, curlpp::Easy *const curl) {
+        static_cast<void>(client);
+        curl->setOpt(curlpp::options::UserAgent { uaStr });
     };
-}
 }
 }

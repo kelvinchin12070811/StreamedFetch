@@ -15,18 +15,11 @@ ClientBase::ClientBase() : client { std::make_unique<curlpp::Easy>() } { }
 void ClientBase::reset() noexcept
 {
     client->reset();
-    method = nullptr;
 }
 
 ClientBase &ClientBase::operator<<(ClientManipulatorType manipulator) noexcept
 {
     manipulator(this, client.get());
-    return *this;
-}
-
-ClientBase &ClientBase::operator>>(Infos::IClientInfo &info)
-{
-    info.writeInfo(*client);
     return *this;
 }
 
@@ -40,18 +33,6 @@ ClientBase::ClientBase(ClientBase &&rhs) noexcept
 ClientBase &ClientBase::operator=(ClientBase &&rhs) noexcept
 {
     client = std::move(rhs.client);
-    return *this;
-}
-
-ClientBase &ClientBase::operator<<(Options::HttpMethods::MethodBase &method) noexcept
-{
-    this->method = method.init();
-    return *this;
-}
-
-ClientBase &ClientBase::operator<<(Options::IClientOption &option) noexcept
-{
-    option.assignOption(client.get());
     return *this;
 }
 

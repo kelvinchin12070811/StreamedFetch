@@ -4,6 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  **********************************************************************************************************************/
 #pragma once
+#include "StreamedFetch/Client/ClientBase.hpp"
 
 #include <list>
 #include <string>
@@ -72,27 +73,5 @@ private:
     std::list<std::string> headers;
 };
 
-/**
- * @brief Add user-agent header to the request, can be manually set via Options::Header too.
- */ 
-class UserAgent : public IClientOption
-{
-public:
-    /**
-     * @brief Create user-agent option object.
-     * @param userAgent User-agent string to apply.
-     */
-    UserAgent(std::string userAgent);
-    void assignOption(curlpp::Easy *client) noexcept override;
-
-private:
-    /**
-     * @brief User-agent string to apply to the request.
-     */
-    std::string userAgent;
-};
-
-namespace functional_test {
-std::function<void(std::unique_ptr<curlpp::Easy>&)> url(std::string path);
-}
+Client::ClientManipulatorType userAgent(std::string value);
 }

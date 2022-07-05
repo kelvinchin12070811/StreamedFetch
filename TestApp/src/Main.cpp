@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE(simple_client_httppost_test)
         long responseCode { 0 };
 
         fetch << Options::HttpMethods::Post { "https://jsonplaceholder.typicode.com/posts", "{\"test\": \"hi\"}" }
-              << Options::Header { "Content-Type: application/json" }
+              << Options::Header { "Content-Type: application/json" } << Options::userAgent("test")
               << Client::perform;
 
         fetch >> data >> Infos::ResponseCode {responseCode};
