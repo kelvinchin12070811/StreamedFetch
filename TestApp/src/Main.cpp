@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE(simple_client_httpget_test)
         std::string data;
         long responseCode { 0 };
         fetch << Options::HttpMethods::Get { "https://jsonplaceholder.typicode.com/todos/1" }
-              << Options::functional_test::url("https://example.com") << Client::perform;
+              << Client::perform;
         fetch >> data >> Infos::ResponseCode { responseCode };
 
         fmt::print("response:\n{}\n", data);
