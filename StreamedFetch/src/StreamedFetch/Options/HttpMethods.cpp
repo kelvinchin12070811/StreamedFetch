@@ -11,46 +11,6 @@
 #include <curlpp/Options.hpp>
 
 namespace StreamedFetch::Options::HttpMethods {
-Get::Get(std::string url) : url { std::move(url) } { }
-
-void Get::assignOption(curlpp::Easy *client) noexcept
-{
-    assert(client != nullptr);
-
-    client->setOpt(curlpp::Options::HttpGet { true });
-    client->setOpt(curlpp::Options::Url { url });
-}
-
-std::unique_ptr<MethodBase> Get::init()
-{
-    return std::make_unique<Get>(std::move(url));
-}
-
-Post::Post(std::string url) : url { url } { }
-Post::Post(std::string url, std::string body) : url { url }, body { body } { }
-
-void Post::assignOption(curlpp::Easy *client) noexcept
-{
-    assert(client != nullptr);
-
-    client->setOpt(curlpp::Options::Url { url });
-
-    if (!body.empty()) {
-        client->setOpt(curlpp::Options::PostFieldSize { static_cast<long>(body.length()) });
-        client->setOpt(curlpp::Options::PostFields { body });
-        return;
-    }
-
-    client->setOpt(curlpp::Options::HttpPost { curlpp::Forms {} });
-}
-
-std::unique_ptr<MethodBase> Post::init()
-{
-    auto method = std::make_unique<Post>(std::move(url));
-    method->body = std::move(body);
-    return method;
-}
-
 Client::ClientManipulatorType get(std::string url)
 {
     return [url = std::move(url)](Client::ClientBase *const client, curlpp::Easy *const curl) {
