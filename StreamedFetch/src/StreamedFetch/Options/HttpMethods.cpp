@@ -50,4 +50,33 @@ std::unique_ptr<MethodBase> Post::init()
     method->body = std::move(body);
     return method;
 }
+
+Client::ClientManipulatorType get(std::string url)
+{
+    return [url = std::move(url)](Client::ClientBase *const client, curlpp::Easy *const curl) {
+        static_cast<void>(client);
+        curl->setOpt(curlpp::Options::HttpGet {});
+        curl->setOpt(curlpp::Options::Url { url });
+    };
+}
+
+Client::ClientManipulatorType post(std::string url)
+{
+    return [url = std::move(url)](Client::ClientBase *const client, curlpp::Easy *const curl) {
+        static_cast<void>(client);
+        curl->setOpt(curlpp::Options::Url { url });
+        curl->setOpt(curlpp::Options::HttpPost { curlpp::Forms {} });
+    };
+}
+
+Client::ClientManipulatorType post(std::string url, std::string body)
+{
+    return [url = std::move(url), body = std::move(body)](Client::ClientBase *const client,
+                                                          curlpp::Easy *const curl) {
+        static_cast<void>(client);
+        curl->setOpt(curlpp::Options::Url { url });
+        curl->setOpt(curlpp::Options::PostFieldSize { static_cast<long>(body.length()) });
+        curl->setOpt(curlpp::Options::PostFields { body });
+    };
+}
 }

@@ -8,6 +8,7 @@
 
 #include <StreamedFetch/Client/SimpleFetch.hpp>
 #include <StreamedFetch/Infos/Infos.hpp>
+#include <StreamedFetch/Options/HttpMethods.hpp>
 
 using namespace StreamedFetch;
 
@@ -18,7 +19,7 @@ BOOST_AUTO_TEST_CASE(simple_client_httpget_test)
         Client::SimpleFetch fetch;
         std::string data;
         long responseCode { 0 };
-        fetch << Options::HttpMethods::Get { "https://jsonplaceholder.typicode.com/todos/1" }
+        fetch << Options::HttpMethods::get("https://jsonplaceholder.typicode.com/todos/1")
               << Client::perform;
         fetch >> data >> Infos::ResponseCode { responseCode };
 
@@ -40,7 +41,8 @@ BOOST_AUTO_TEST_CASE(simple_client_httppost_test)
         std::string data;
         long responseCode { 0 };
 
-        fetch << Options::HttpMethods::Post { "https://jsonplaceholder.typicode.com/posts", "{\"test\": \"hi\"}" }
+        fetch << Options::HttpMethods::post("https://jsonplaceholder.typicode.com/posts",
+                                            "{\"test\": \"hi\"}")
               << Options::Header { "Content-Type: application/json" } << Options::userAgent("test")
               << Client::perform;
 

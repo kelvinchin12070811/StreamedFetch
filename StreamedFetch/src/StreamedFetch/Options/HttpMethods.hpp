@@ -21,62 +21,29 @@ class Easy;
 
 namespace StreamedFetch::Options::HttpMethods {
 /**
- * @brief Interface of HTTP request methods.
+ * @brief Represented as the HTTP GET request method.
+ * @param url Url to fetch.
+ * @return Manipulator to execute by ClientBase.
+ */
+Client::ClientManipulatorType get(std::string url);
+
+/**
+ * @brief Represented as the empty HTTP POST request method.
+ * @param url Url to POST.
  * 
- * Represented as the interface of all HTTP request methods.
- */
-class MethodBase : public IClientOption
-{
-public:
-    /**
-     * @brief Assign the HTTP request method's options to targeted client.
-     * 
-     * Assign HTTP request method to @p client.
-     * 
-     * @param client Client to assign the option to, must not be nullptr or assertion failed will be triggered.
-     */
-    virtual void assignOption(curlpp::Easy *client) noexcept override = 0;
-    /**
-     * @brief Create a instance of it self.
-     * @return Abstracted MethodBase client option.
-     */
-    virtual std::unique_ptr<MethodBase> init() = 0;
-    ~MethodBase() = default;
-};
-
+ * @sa StreamedFetch::Options::HttpMethods::post(std::string url, std::string body)
+ * 
+ * @return Manipulator to execute by ClientBase.
+*/
+Client::ClientManipulatorType post(std::string url);
 /**
- * @brief Represented as HTTP GET request option.
- */
-class Get : public MethodBase
-{
-public:
-    Get(std::string url);
-    STREAMED_FETCH_METHOD_BASE_DEFINITIONS
-};
-
-/**
- * @brief Represented as HTTP POST request option.
- */
-class Post : public MethodBase
-{
-public:
-    /**
-     * @brief Initialize an empty post request, with only url.
-     * @param url URL of the endpoint.
-     */
-    Post(std::string url);
-    /**
-     * @brief Initialize a post request with body.
-     * @param url URL of the endpoint.
-     * @param body Body of the request, can be any kind of data such as form or json.
-     * @note This option does not set the related Content-Type header. See Options::Header for more info.
-     */
-    Post(std::string url, std::string body);
-    STREAMED_FETCH_METHOD_BASE_DEFINITIONS
-
-    /**
-     * @brief Body of the post request.
-     */
-    std::string body;
-};
+ * @brief Represented as the HTTP POST request method with payload.
+ * @param url Url to POST.
+ * @param body Payload to send to @p url.
+ * 
+ * @sa StreamedFetch::Options::HttpMethods::post(std::string url)
+ * 
+ * @return Manipulator to execute by ClientBase
+*/
+Client::ClientManipulatorType post(std::string url, std::string body);
 }
